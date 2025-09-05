@@ -25,5 +25,18 @@ export function EntityCard(data: Character | Location | Episode) {
   name.textContent = data.name;
   card.appendChild(name);
 
+  card.addEventListener('click', (e) => {
+    const event = new CustomEvent('entityCardClick', {
+      detail: {
+        data,
+        position: {
+          x: e.clientX,
+          y: e.clientY,
+        },
+      },
+    });
+    window.dispatchEvent(event);
+  });
+
   return card;
 }

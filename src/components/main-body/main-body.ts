@@ -9,7 +9,9 @@ import type {
   LocationsResponse,
 } from '../../api/types';
 import { EntityCard } from '../entity-card/entity-card';
+import { Modal } from '../modal/modal';
 import { Tabs } from '../tabs/tabs';
+import { ErrorMessage } from './error-message/error-message';
 
 import './main-body.css';
 
@@ -26,24 +28,25 @@ export function MainBody() {
 
   async function loadEntities() {
     const activePage = getActivePageFromHash();
-    const entities = await fetchEntities(activePage);
-    cardsGrid.innerHTML = '';
-    entities?.forEach((entity) => cardsGrid.appendChild(entity));
+    try {
+      const entities = await fetchEntities(activePage);
+      cardsGrid.innerHTML = '';
+      entities?.forEach((entity) => cardsGrid.appendChild(EntityCard(entity)));
+    } catch (e) {
+      cardsGrid.innerHTML = '';
+      cardsGrid.appendChild(ErrorMessage(activePage));
+    }
     body.classList.remove('loading');
   }
 
   loadEntities();
-
   body.appendChild(Tabs(activePage, loadEntities));
   body.appendChild(cardsGrid);
+  body.appendChild(Modal());
   return body;
 }
 
-async function fetchEntities(
-  activePage: ActivePage,
-  // cardsGrid: HTMLDivElement,
-  // onComplete: () => void,
-) {
+async function fetchEntities(activePage: ActivePage) {
   let entities:
     | CharactersResponse
     | LocationsResponse
@@ -53,9 +56,7 @@ async function fetchEntities(
   else if (activePage === 'episodes') entities = await fetchEpisodesPage(1);
   else entities = await fetchCharactersPage(1); // Characters is default
 
-  if (!entities) return;
-
-  return entities.results.map((entity) => EntityCard(entity));
+  return entities.results;
 }
 
 function getActivePageFromHash(): ActivePage {

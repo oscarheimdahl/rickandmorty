@@ -12,4 +12,14 @@ body,
 
 body {
   background-color: #151714;
+  font-family: 'TASA Explorer', Arial, Helvetica, sans-serif;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,0 +1,67 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000099;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s ease-in forwards;
+
+  &.hidden {
+    display: none;
+  }
+
+  .modal-portal-container-position {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .modal-portal-container {
+      animation: scaleUpAndDown 2s ease-in-out forwards;
+
+      .modal-portal {
+        animation: spin 1s linear infinite;
+        width: 100px;
+        height: 100px;
+        background-size: 100px 100px;
+        background-image: url('../../images/portal.png');
+      }
+    }
+  }
+
+  .modal {
+    position: absolute;
+    background-color: white;
+    width: 600px;
+    height: 700px;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUpAndDown {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
