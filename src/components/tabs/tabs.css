@@ -1,0 +1,26 @@
+.tabs {
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+
+  button {
+    border-radius: 0;
+    appearance: none;
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+
+    &.active {
+      background-color: #888;
+      color: white;
+    }
+
+    &:first-child {
+      border-top-left-radius: 4px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 4px;
+    }
+  }
+}
