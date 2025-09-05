@@ -1,9 +1,10 @@
-.character {
+.card {
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: #eeeeee;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 250px;
   user-select: none;
@@ -23,7 +24,7 @@
     scale: 1.05;
   }
 
-  .character-image {
+  .card-image {
     width: 150px;
     height: 150px;
     border-radius: 35%;

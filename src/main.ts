@@ -4,7 +4,7 @@ import {
   fetchCharactersPage,
   fetchEpisodesPage,
   fetchLocationsPage,
-} from './api/rickandmorty';
+} from './api/rickandmorty-api';
 import { Background } from './components/background/background';
 import { MainBody } from './components/main-body/main-body';
 
