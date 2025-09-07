@@ -8,7 +8,7 @@
   }
 
   .cards-grid {
-    background-color: #888;
+    background-color: var(--background);
     border-radius: 1rem;
     padding: 1rem;
     display: grid;

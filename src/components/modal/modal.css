@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.5s ease-in forwards;
+  animation: fadeIn 0.2s ease-in forwards;
 
   &.hidden {
     display: none;
@@ -19,8 +19,8 @@
     top: 0;
     left: 0;
 
-    .modal-portal-container {
-      animation: scaleUpAndDown 2s ease-in-out forwards;
+    .modal-portal-container-scale {
+      animation: scaleUpAndDown 1.5s ease-in-out forwards;
 
       .modal-portal {
         animation: spin 1s linear infinite;
@@ -34,10 +34,13 @@
 
   .modal {
     position: absolute;
-    background-color: white;
+    background-color: var(--background);
     width: 600px;
     height: 700px;
     opacity: 0;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: dashed 3px orange;
   }
 }
 

@@ -2,6 +2,11 @@ import type { Character, Episode, Location } from '../../api/types';
 
 import './entity-card.css';
 
+export type EntityCardClickDetail = {
+  data: Character | Location | Episode;
+  position: { x: number; y: number };
+};
+
 export function EntityCard(data: Character | Location | Episode) {
   const card = document.createElement('button');
   card.className = 'card';
@@ -26,7 +31,7 @@ export function EntityCard(data: Character | Location | Episode) {
   card.appendChild(name);
 
   card.addEventListener('click', (e) => {
-    const event = new CustomEvent('entityCardClick', {
+    const event = new CustomEvent<EntityCardClickDetail>('entityCardClick', {
       detail: {
         data,
         position: {

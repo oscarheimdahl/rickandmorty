@@ -11,7 +11,7 @@
     padding: 0.5rem;
 
     &.active {
-      background-color: #888;
+      background-color: var(--background);
       color: white;
     }
 
