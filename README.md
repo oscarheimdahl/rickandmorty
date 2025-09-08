@@ -1,4 +1,4 @@
-# RICK AND MORTY FRONT END 🥒
+# RICK AND MORTY FRONTEND 🥒
 
 This is a frontend to display data from the [Rick and Morty API](https://rickandmortyapi.com/)
 
@@ -21,6 +21,7 @@ You can visit the deployed site [here!](https://oscarheimdahl.github.io/rickandm
 
 - **Hash routing** is being used to keep the application singlepage and not trigger a reroute. While still maintaining state in the URL, for easy sharing or persistance on refresh.
 - **Component based** the application is being split into components, with rerendering with different state being done by removing the component completely and rerendering it with new state.
+- **Vite** is used to bundle the application, enables use of modern features and better browser support. Aswell as enabled typescript.
 
 ### Misc
 
