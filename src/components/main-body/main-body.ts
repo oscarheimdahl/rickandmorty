@@ -20,9 +20,6 @@ import './main-body.css';
 export type ActivePageType = 'characters' | 'locations' | 'episodes';
 
 export function MainBody() {
-  const pageNumber = getPageSearchParam();
-  const activePageType = getActivePageTypeFromHash();
-
   const body = document.createElement('div');
   body.className = 'main-body loading';
 
@@ -39,6 +36,7 @@ export function MainBody() {
       const totalPages = data.info.pages;
       cardsGrid.innerHTML = '';
       entities?.forEach((entity) => cardsGrid.appendChild(EntityCard(entity)));
+      document.querySelector('.pagination')?.remove();
       body.appendChild(Pagination(pageNumber, totalPages, loadEntities));
     } catch (e) {
       cardsGrid.innerHTML = '';
@@ -48,7 +46,7 @@ export function MainBody() {
   }
 
   loadEntities();
-  body.appendChild(Tabs(activePageType, loadEntities));
+  body.appendChild(Tabs(loadEntities));
   body.appendChild(cardsGrid);
 
   body.appendChild(Modal());

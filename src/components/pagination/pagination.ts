@@ -32,7 +32,6 @@ export function Pagination(
     if (newPageNumber === pageNumber) return;
     setPageSearchParam(newPageNumber);
     loadEntities();
-    paginationContainer.remove();
   }
 
   prevButton.addEventListener('click', () => updatePage('prev'));

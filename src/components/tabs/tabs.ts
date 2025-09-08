@@ -1,8 +1,10 @@
-import type { ActivePageType } from '../main-body/main-body';
+import { getActivePageTypeFromHash } from '../../utils/url';
 
 import './tabs.css';
 
-export function Tabs(activePage: ActivePageType, onClick: () => void) {
+export function Tabs(onClick: () => void) {
+  const activePage = getActivePageTypeFromHash();
+
   const tabsDiv = document.createElement('div');
   tabsDiv.className = 'tabs';
 
