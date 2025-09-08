@@ -1,8 +1,8 @@
-import type { ActivePage } from '../main-body/main-body';
+import type { ActivePageType } from '../main-body/main-body';
 
 import './tabs.css';
 
-export function Tabs(activePage: ActivePage, onClick: () => void) {
+export function Tabs(activePage: ActivePageType, onClick: () => void) {
   const tabsDiv = document.createElement('div');
   tabsDiv.className = 'tabs';
 

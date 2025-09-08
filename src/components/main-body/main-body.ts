@@ -8,31 +8,38 @@ import type {
   EpisodesResponse,
   LocationsResponse,
 } from '../../api/types';
+import { getActivePageTypeFromHash, getPageSearchParam } from '../../utils/url';
 import { EntityCard } from '../entity-card/entity-card';
 import { Modal } from '../modal/modal';
+import { Pagination } from '../pagination/pagination';
 import { Tabs } from '../tabs/tabs';
 import { ErrorMessage } from './error-message/error-message';
 
 import './main-body.css';
 
-export type ActivePage = 'characters' | 'locations' | 'episodes';
+export type ActivePageType = 'characters' | 'locations' | 'episodes';
 
 export function MainBody() {
-  const activePage = getActivePageFromHash();
+  const pageNumber = getPageSearchParam();
+  const activePageType = getActivePageTypeFromHash();
 
   const body = document.createElement('div');
-  body.className = 'main-modal loading';
+  body.className = 'main-body loading';
 
   const cardsGrid = document.createElement('div');
   cardsGrid.className = 'cards-grid';
 
   async function loadEntities() {
     body.classList.add('loading');
-    const activePage = getActivePageFromHash();
+    const activePage = getActivePageTypeFromHash();
+    const pageNumber = getPageSearchParam();
     try {
-      const entities = await fetchEntities(activePage);
+      const data = await fetchEntities(activePage, pageNumber);
+      const entities = data.results;
+      const totalPages = data.info.pages;
       cardsGrid.innerHTML = '';
       entities?.forEach((entity) => cardsGrid.appendChild(EntityCard(entity)));
+      body.appendChild(Pagination(pageNumber, totalPages, loadEntities));
     } catch (e) {
       cardsGrid.innerHTML = '';
       cardsGrid.appendChild(ErrorMessage(activePage));
@@ -41,32 +48,24 @@ export function MainBody() {
   }
 
   loadEntities();
-  body.appendChild(Tabs(activePage, loadEntities));
+  body.appendChild(Tabs(activePageType, loadEntities));
   body.appendChild(cardsGrid);
+
   body.appendChild(Modal());
   return body;
 }
 
-async function fetchEntities(activePage: ActivePage) {
+async function fetchEntities(activePage: ActivePageType, pageNumber: number) {
   let entities:
     | CharactersResponse
     | LocationsResponse
     | EpisodesResponse
     | undefined = undefined;
-  if (activePage === 'locations') entities = await fetchLocationsPage(1);
-  else if (activePage === 'episodes') entities = await fetchEpisodesPage(1);
-  else entities = await fetchCharactersPage(1); // Characters is default
+  if (activePage === 'locations')
+    entities = await fetchLocationsPage(pageNumber);
+  else if (activePage === 'episodes')
+    entities = await fetchEpisodesPage(pageNumber);
+  else entities = await fetchCharactersPage(pageNumber); // Characters is default
 
-  return entities.results;
-}
-
-const sleep = async (msec: number) => {
-  return new Promise((resolve) => setTimeout(resolve, msec));
-};
-
-function getActivePageFromHash(): ActivePage {
-  const hash = window.location.hash;
-  if (hash.includes('locations')) return 'locations';
-  if (hash.includes('episodes')) return 'episodes';
-  return 'characters';
+  return entities;
 }
