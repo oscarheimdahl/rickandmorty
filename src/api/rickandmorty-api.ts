@@ -20,6 +20,7 @@ export async function fetchEpisodesPage(page: number) {
 
 type Path = 'character' | 'location' | 'episode';
 async function fetchData<T>(path: Path, page: number) {
+  // await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulte slow network
   const res = await fetch(`${BASE_URL}${path}?page=${page}`, {
     headers: { 'Content-Type': 'application/json' },
   });

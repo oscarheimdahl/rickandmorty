@@ -89,6 +89,7 @@ function buildModal(data: Character | Location | Episode) {
 
   const title = document.createElement('h1');
   title.textContent = data.name;
+  title.className = 'rick-and-morty-text';
   modalContent.appendChild(title);
 
   if ('species' in data) {
@@ -136,7 +137,6 @@ function buildModal(data: Character | Location | Episode) {
     modalContent.appendChild(span);
   }
 
-  // Location
   if ('type' in data) {
     const type = document.createElement('p');
     type.textContent = 'Type: ' + (data.type || 'Unknown');
@@ -157,7 +157,7 @@ function animateModalIn(
   modal: HTMLDivElement,
   position: { x: number; y: number },
 ) {
-  // To get correct final position, the modal needs to be rendered in the dom.
+  // To get correct final position, the modal needs to be first rendered in the dom.
   const rect = modal.getBoundingClientRect();
 
   const offsetX = position.x - rect.left;

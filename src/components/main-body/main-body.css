@@ -1,20 +1,26 @@
-.main-body {
-  margin: 2rem auto;
-  width: fit-content;
-  position: relative;
-  transition: opacity 0.3s ease;
-
+.main-body-wrapper {
   &.loading {
-    opacity: 0;
+    animation: pulse 2s infinite;
+    animation-delay: 0.5s;
   }
 
-  .cards-grid {
-    background-color: var(--background);
-    border-radius: 1rem;
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
+  .main-body {
+    margin: 2rem auto;
+    width: fit-content;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+    animation-delay: 1s;
+    min-width: 400px;
+
+    .cards-grid {
+      background-color: var(--background);
+      border-radius: 1rem;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
   }
 }
 
@@ -26,5 +32,17 @@
 @media screen and (max-width: 600px) {
   .main-body .cards-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }

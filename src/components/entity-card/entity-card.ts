@@ -9,7 +9,7 @@ export type EntityCardClickDetail = {
 
 export function EntityCard(data: Character | Location | Episode) {
   const card = document.createElement('button');
-  card.className = 'card';
+  card.className = 'card rick-and-morty-text';
 
   if ('image' in data) {
     const img = new Image();

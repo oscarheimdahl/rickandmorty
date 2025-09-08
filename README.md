@@ -19,7 +19,7 @@ You can visit the deployed site [here!](https://oscarheimdahl.github.io/rickandm
 
 ### Design decisions
 
-- **Hash routing** is being used to keep the application singlepage and not tricker a reroute. While still maintaining state in the URL, for easy sharing or persistance on refresh.
+- **Hash routing** is being used to keep the application singlepage and not trigger a reroute. While still maintaining state in the URL, for easy sharing or persistance on refresh.
 - **Component based** the application is being split into components, with rerendering with different state being done by removing the component completely and rerendering it with new state.
 
 ### Misc

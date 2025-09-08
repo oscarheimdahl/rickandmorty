@@ -3,11 +3,6 @@ import {
   fetchEpisodesPage,
   fetchLocationsPage,
 } from '../../api/rickandmorty-api';
-import type {
-  CharactersResponse,
-  EpisodesResponse,
-  LocationsResponse,
-} from '../../api/types';
 import { getActivePageTypeFromHash, getPageSearchParam } from '../../utils/url';
 import { EntityCard } from '../entity-card/entity-card';
 import { Modal } from '../modal/modal';
@@ -21,17 +16,20 @@ export type ActivePageType = 'characters' | 'locations' | 'episodes';
 
 export function MainBody() {
   const body = document.createElement('div');
-  body.className = 'main-body loading';
+  body.className = 'main-body';
+  const bodyWrapper = document.createElement('div');
+  bodyWrapper.className = 'main-body-wrapper';
 
   const cardsGrid = document.createElement('div');
   cardsGrid.className = 'cards-grid';
 
   async function loadEntities() {
-    body.classList.add('loading');
-    const activePage = getActivePageTypeFromHash();
+    bodyWrapper.classList.add('loading');
+    const activePageType = getActivePageTypeFromHash();
     const pageNumber = getPageSearchParam();
+
     try {
-      const data = await fetchEntities(activePage, pageNumber);
+      const data = await fetchEntities(activePageType, pageNumber);
       const entities = data.results;
       const totalPages = data.info.pages;
       cardsGrid.innerHTML = '';
@@ -40,30 +38,23 @@ export function MainBody() {
       body.appendChild(Pagination(pageNumber, totalPages, loadEntities));
     } catch (e) {
       cardsGrid.innerHTML = '';
-      cardsGrid.appendChild(ErrorMessage(activePage));
+      cardsGrid.appendChild(ErrorMessage(activePageType));
     }
-    body.classList.remove('loading');
+
+    bodyWrapper.classList.remove('loading');
   }
 
   loadEntities();
   body.appendChild(Tabs(loadEntities));
   body.appendChild(cardsGrid);
-
   body.appendChild(Modal());
-  return body;
+  bodyWrapper.appendChild(body);
+
+  return bodyWrapper;
 }
 
 async function fetchEntities(activePage: ActivePageType, pageNumber: number) {
-  let entities:
-    | CharactersResponse
-    | LocationsResponse
-    | EpisodesResponse
-    | undefined = undefined;
-  if (activePage === 'locations')
-    entities = await fetchLocationsPage(pageNumber);
-  else if (activePage === 'episodes')
-    entities = await fetchEpisodesPage(pageNumber);
-  else entities = await fetchCharactersPage(pageNumber); // Characters is default
-
-  return entities;
+  if (activePage === 'locations') return fetchLocationsPage(pageNumber);
+  else if (activePage === 'episodes') return fetchEpisodesPage(pageNumber);
+  else return fetchCharactersPage(pageNumber); // Characters is default
 }
