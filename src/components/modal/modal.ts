@@ -6,7 +6,7 @@ import './modal.css';
 export function Modal() {
   let showModal = false;
   const modalContainer = document.createElement('div');
-  modalContainer.className = 'modal-container hidden';
+  modalContainer.className = 'modal-background hidden';
 
   const content = document.createElement('div');
   content.className = 'modal-content';
@@ -17,8 +17,25 @@ export function Modal() {
     modalContainer.innerHTML = '';
   }
 
+  function openModal(
+    data: Character | Location | Episode,
+    position: { x: number; y: number },
+  ) {
+    modalContainer.appendChild(buildPortal(position));
+    const modal = buildModal(data);
+    modalContainer.appendChild(modal);
+    setTimeout(() => animateModalIn(modal, position), 500);
+  }
+
   modalContainer.addEventListener('click', (e) => {
     if (e.target === modalContainer) {
+      closeModal();
+      showModal = false;
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && showModal) {
       closeModal();
       showModal = false;
     }
@@ -31,10 +48,7 @@ export function Modal() {
     const { data, position } = (e as CustomEvent<EntityCardClickDetail>).detail;
     modalContainer.classList.remove('hidden');
 
-    modalContainer.appendChild(buildPortal(position));
-    const modal = buildModal(data);
-    modalContainer.appendChild(modal);
-    setTimeout(() => animateModalIn(modal, position), 500);
+    openModal(data, position);
   });
 
   return modalContainer;
@@ -60,15 +74,83 @@ function buildPortal(position: { x: number; y: number }) {
 }
 
 function buildModal(data: Character | Location | Episode) {
-  console.log(data);
+  const modalContainer = document.createElement('div');
+  modalContainer.className = 'modal-container';
   const modalContent = document.createElement('div');
   modalContent.className = 'modal';
+
+  if ('image' in data) {
+    const img = new Image();
+    img.src = data.image;
+    img.alt = data.name;
+    img.className = 'modal-image';
+    modalContent.appendChild(img);
+  }
 
   const title = document.createElement('h1');
   title.textContent = data.name;
   modalContent.appendChild(title);
 
-  return modalContent;
+  if ('species' in data) {
+    const species = document.createElement('p');
+    species.textContent = 'Species: ' + data.species;
+    modalContent.appendChild(species);
+  }
+
+  if ('gender' in data) {
+    const gender = document.createElement('p');
+    gender.textContent = 'Gender: ' + data.gender;
+    modalContent.appendChild(gender);
+  }
+
+  if ('origin' in data) {
+    const origin = document.createElement('p');
+    origin.textContent = 'Origin: ' + data.origin.name;
+    modalContent.appendChild(origin);
+  }
+
+  if ('status' in data) {
+    const status = document.createElement('p');
+    status.textContent = 'Status: ' + data.status;
+    modalContent.appendChild(status);
+  }
+
+  if ('location' in data) {
+    const location = document.createElement('p');
+    location.textContent = 'Location: ' + data.location.name;
+    modalContent.appendChild(location);
+  }
+
+  // Episode
+  if ('episode' in data && typeof data.episode === 'string') {
+    const span = document.createElement('span');
+    span.textContent = data.episode;
+    span.className = 'modal-episode';
+    modalContent.appendChild(span);
+  }
+
+  if ('air_date' in data) {
+    const span = document.createElement('span');
+    span.textContent = 'Air date: ' + data.air_date;
+    span.className = 'modal-air-date';
+    modalContent.appendChild(span);
+  }
+
+  // Location
+  if ('type' in data) {
+    const type = document.createElement('p');
+    type.textContent = 'Type: ' + (data.type || 'Unknown');
+    modalContent.appendChild(type);
+  }
+
+  if ('dimension' in data) {
+    const dimension = document.createElement('p');
+    dimension.textContent = 'Dimension: ' + data.dimension;
+    modalContent.appendChild(dimension);
+  }
+
+  modalContainer.appendChild(modalContent);
+  return modalContainer;
 }
 
 function animateModalIn(

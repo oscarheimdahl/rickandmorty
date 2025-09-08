@@ -6,7 +6,10 @@ export type Character = {
   status: 'Alive' | 'Dead' | 'unknown';
   species: string;
   type: string;
-  origin: string;
+  origin: {
+    name: string;
+    url: string;
+  };
   location: {
     name: string;
     url: string;

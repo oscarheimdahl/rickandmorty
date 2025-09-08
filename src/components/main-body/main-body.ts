@@ -27,6 +27,7 @@ export function MainBody() {
   cardsGrid.className = 'cards-grid';
 
   async function loadEntities() {
+    body.classList.add('loading');
     const activePage = getActivePageFromHash();
     try {
       const entities = await fetchEntities(activePage);
@@ -58,6 +59,10 @@ async function fetchEntities(activePage: ActivePage) {
 
   return entities.results;
 }
+
+const sleep = async (msec: number) => {
+  return new Promise((resolve) => setTimeout(resolve, msec));
+};
 
 function getActivePageFromHash(): ActivePage {
   const hash = window.location.hash;

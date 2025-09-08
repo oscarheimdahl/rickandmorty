@@ -19,16 +19,16 @@ export function EntityCard(data: Character | Location | Episode) {
     card.appendChild(img);
   }
 
+  const name = document.createElement('h2');
+  name.textContent = data.name;
+  card.appendChild(name);
+
   if ('episode' in data && typeof data.episode === 'string') {
     const span = document.createElement('span');
     span.textContent = data.episode;
     span.className = 'entity-episode';
     card.appendChild(span);
   }
-
-  const name = document.createElement('h2');
-  name.textContent = data.name;
-  card.appendChild(name);
 
   card.addEventListener('click', (e) => {
     const event = new CustomEvent<EntityCardClickDetail>('entityCardClick', {
